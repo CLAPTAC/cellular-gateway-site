@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>API — Cellular Gateway</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header docs solid">
+      <a class="brand-mark" href="../">Cellular Gateway</a>
+      <nav class="nav">
+        <a href="../">Home</a>
+        <a href="./">Docs</a>
+        <a href="https://github.com/CLAPTAC/cellular-gateway">GitHub</a>
+      </nav>
+    </header>
+    <div class="docs-shell">
+      <aside class="docs-side">
+        <h2>Docs</h2>
+        <a href="./">Overview</a>
+        <a href="installation.html">Installation</a>
+        <a class="active" href="api.html">API</a>
+        <a href="android.html">Android app</a>
+        <a href="websocket.html">WebSocket protocol</a>
+        <a href="sms.html">SMS</a>
+        <a href="voice.html">Voice</a>
+        <a href="multi-device.html">Multi-device</a>
+        <a href="qr-provisioning.html">QR provisioning</a>
+      </aside>
+      <main class="docs-main">
+        <h1>API</h1>
+        <p>
+          Base path: <code>/api/v1</code>. Interactive docs are available at
+          <code>/docs</code> on your running server.
+        </p>
+
+        <h2>Authentication</h2>
+        <ul>
+          <li>Admin JWT: <code>POST /api/v1/auth/login</code> then <code>Authorization: Bearer …</code></li>
+          <li>Application key: create in dashboard, send <code>X-API-Key: cgk_…</code></li>
+        </ul>
+
+        <h2>Send SMS</h2>
+        <pre><code>curl -X POST http://HOST:8000/api/v1/messages \
+  -H "X-API-Key: cgk_YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "device": "dev_YOUR_DEVICE_KEY",
+    "to": "+9477xxxxxxx",
+    "message": "Hello from Cellular Gateway"
+  }'</code></pre>
+
+        <h2>Start a call</h2>
+        <pre><code>curl -X POST http://HOST:8000/api/v1/calls \
+  -H "X-API-Key: cgk_YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"device":"dev_YOUR_DEVICE_KEY","to":"+9477xxxxxxx"}'</code></pre>
+
+        <h2>Route via a device group</h2>
+        <pre><code>curl -X POST http://HOST:8000/api/v1/messages \
+  -H "X-API-Key: cgk_YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "group": "dialog-pool",
+    "to": "+9477xxxxxxx",
+    "message": "Routed SMS",
+    "queue": true,
+    "failover": true
+  }'</code></pre>
+
+        <h2>Useful endpoints</h2>
+        <table>
+          <thead>
+            <tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>GET</td><td>/api/v1/devices</td><td>List devices</td></tr>
+            <tr><td>POST</td><td>/api/v1/messages</td><td>Send SMS</td></tr>
+            <tr><td>GET</td><td>/api/v1/messages</td><td>Message history</td></tr>
+            <tr><td>POST</td><td>/api/v1/calls</td><td>Start call</td></tr>
+            <tr><td>POST</td><td>/api/v1/calls/{id}/end</td><td>End call</td></tr>
+            <tr><td>POST</td><td>/api/v1/groups</td><td>Create device group</td></tr>
+            <tr><td>POST</td><td>/api/v1/commands</td><td>Generic command</td></tr>
+          </tbody>
+        </table>
+      </main>
+    </div>
+  </body>
+</html>

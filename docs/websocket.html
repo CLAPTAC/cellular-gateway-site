@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WebSocket protocol — Cellular Gateway</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header docs solid">
+      <a class="brand-mark" href="../">Cellular Gateway</a>
+      <nav class="nav"><a href="../">Home</a><a href="./">Docs</a><a href="https://github.com/CLAPTAC/cellular-gateway">GitHub</a></nav>
+    </header>
+    <div class="docs-shell">
+      <aside class="docs-side">
+        <h2>Docs</h2>
+        <a href="./">Overview</a>
+        <a href="installation.html">Installation</a>
+        <a href="api.html">API</a>
+        <a href="android.html">Android app</a>
+        <a class="active" href="websocket.html">WebSocket protocol</a>
+        <a href="sms.html">SMS</a>
+        <a href="voice.html">Voice</a>
+        <a href="multi-device.html">Multi-device</a>
+        <a href="qr-provisioning.html">QR provisioning</a>
+      </aside>
+      <main class="docs-main">
+        <h1>WebSocket protocol</h1>
+        <p>Devices connect to:</p>
+        <pre><code>WS /ws/devices?device_key=...&amp;device_token=...</code></pre>
+        <h2>Server → device command</h2>
+        <pre><code>{
+  "type": "command",
+  "command": {
+    "type": "SMS_SEND",
+    "request_id": "req_...",
+    "device_id": "...",
+    "payload": { "to": "+94...", "message": "Hello" }
+  }
+}</code></pre>
+        <h2>Device → server</h2>
+        <pre><code>{
+  "type": "heartbeat",
+  "payload": { "battery": 90, "signal_strength": 80, "network": "4G" }
+}
+
+{
+  "type": "command_ack",
+  "payload": {
+    "request_id": "req_...",
+    "status": "COMPLETED",
+    "result": { "sent": true }
+  }
+}
+
+{
+  "type": "sms_received",
+  "payload": { "from": "+94...", "body": "Reply text" }
+}
+
+{
+  "type": "call_state",
+  "payload": { "state": "ACTIVE", "request_id": "req_...", "call_id": "..." }
+}</code></pre>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Installation — Cellular Gateway</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header docs solid">
+      <a class="brand-mark" href="../">Cellular Gateway</a>
+      <nav class="nav">
+        <a href="../">Home</a>
+        <a href="./">Docs</a>
+        <a href="https://github.com/CLAPTAC/cellular-gateway">GitHub</a>
+      </nav>
+    </header>
+    <div class="docs-shell">
+      <aside class="docs-side">
+        <h2>Docs</h2>
+        <a href="./">Overview</a>
+        <a class="active" href="installation.html">Installation</a>
+        <a href="api.html">API</a>
+        <a href="android.html">Android app</a>
+        <a href="websocket.html">WebSocket protocol</a>
+        <a href="sms.html">SMS</a>
+        <a href="voice.html">Voice</a>
+        <a href="multi-device.html">Multi-device</a>
+        <a href="qr-provisioning.html">QR provisioning</a>
+      </aside>
+      <main class="docs-main">
+        <h1>Installation</h1>
+        <p>Run the gateway locally with SQLite, or use Docker Compose with PostgreSQL when available.</p>
+
+        <h2>Local server</h2>
+        <pre><code>cp .env.example .env
+cd server
+python3.12 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload</code></pre>
+
+        <p>
+          Important: bind to <code>0.0.0.0</code> so real phones on your LAN can reach the API.
+          Use your PC LAN IP in the Android app / QR provisioning URL (not localhost).
+        </p>
+
+        <h2>Dashboard</h2>
+        <pre><code>cd dashboard
+npm install
+NEXT_PUBLIC_API_URL=http://localhost:8000 npm run dev</code></pre>
+
+        <h2>Default admin</h2>
+        <table>
+          <tbody>
+            <tr><th>Email</th><td><code>admin@example.com</code></td></tr>
+            <tr><th>Password</th><td><code>changeme</code></td></tr>
+          </tbody>
+        </table>
+        <p>Change these in <code>.env</code> before any real deployment.</p>
+
+        <h2>Health check</h2>
+        <pre><code>curl http://localhost:8000/health</code></pre>
+
+        <h2>Docker Compose</h2>
+        <p>
+          A <code>docker-compose.yml</code> is included for PostgreSQL + server + dashboard.
+          Requires Docker Compose support on the host.
+        </p>
+        <pre><code>cp .env.example .env
+docker compose up --build</code></pre>
+      </main>
+    </div>
+  </body>
+</html>

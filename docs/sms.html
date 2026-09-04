@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SMS — Cellular Gateway</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header docs solid">
+      <a class="brand-mark" href="../">Cellular Gateway</a>
+      <nav class="nav"><a href="../">Home</a><a href="./">Docs</a><a href="https://github.com/CLAPTAC/cellular-gateway">GitHub</a></nav>
+    </header>
+    <div class="docs-shell">
+      <aside class="docs-side">
+        <h2>Docs</h2>
+        <a href="./">Overview</a>
+        <a href="installation.html">Installation</a>
+        <a href="api.html">API</a>
+        <a href="android.html">Android app</a>
+        <a href="websocket.html">WebSocket protocol</a>
+        <a class="active" href="sms.html">SMS</a>
+        <a href="voice.html">Voice</a>
+        <a href="multi-device.html">Multi-device</a>
+        <a href="qr-provisioning.html">QR provisioning</a>
+      </aside>
+      <main class="docs-main">
+        <h1>SMS</h1>
+        <p>Phase 2 enables real SMS send/receive through the connected Android SIM.</p>
+        <h2>Requirements</h2>
+        <ul>
+          <li>Android app with <code>SEND_SMS</code> / <code>RECEIVE_SMS</code> granted</li>
+          <li>Device status <strong>ONLINE</strong></li>
+          <li>Valid API key</li>
+        </ul>
+        <h2>Send</h2>
+        <pre><code>POST /api/v1/messages
+{
+  "device": "dev_...",
+  "to": "+9477xxxxxxx",
+  "message": "Hello"
+}</code></pre>
+        <p>Statuses move through queued/sending into <code>SENT</code> or <code>FAILED</code>. Inbound SMS appears as <code>INBOUND</code> / <code>RECEIVED</code> in message history.</p>
+        <p>Carrier charges and local messaging regulations still apply.</p>
+      </main>
+    </div>
+  </body>
+</html>

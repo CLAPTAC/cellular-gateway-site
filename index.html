@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cellular Gateway — Self-hosted SMS & voice for your own SIMs</title>
+    <meta
+      name="description"
+      content="Open-source self-hosted cellular gateway. Connect Android phones to your apps over a secure API for SMS and voice."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand-mark" href="./">Cellular Gateway</a>
+      <nav class="nav">
+        <a href="#how">How it works</a>
+        <a href="docs/">Docs</a>
+        <a href="https://github.com/CLAPTAC/cellular-gateway">GitHub</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-inner">
+        <p class="hero-brand">Cellular Gateway</p>
+        <h1>Your apps. Your SIMs. Your infrastructure.</h1>
+        <p>
+          A self-hosted bridge from modern APIs to real Android phones — SMS and
+          voice without locking into a cloud communications vendor.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="docs/installation.html">Get started</a>
+          <a class="btn btn-ghost" href="docs/">Read the docs</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <h2>One path from API to mobile network</h2>
+      <p class="lead">
+        External software never talks to phones directly. The gateway server
+        authenticates requests, routes commands, and keeps device sessions alive.
+      </p>
+      <div class="flow">
+        <span>Your application</span>
+        <span>HTTPS REST API</span>
+        <span>Gateway server</span>
+        <span>Android device + SIM</span>
+      </div>
+    </section>
+
+    <section class="section" id="capabilities">
+      <h2>Built for operators who want control</h2>
+      <p class="lead">
+        Start with a reliable device link, then grow into messaging, calling, and
+        multi-SIM routing.
+      </p>
+      <ul class="feature-list">
+        <li>
+          <strong>Secure device channel</strong>
+          <p>
+            Android gateways register with dedicated credentials and stay connected
+            over authenticated WebSockets with heartbeats and auto-reconnect.
+          </p>
+        </li>
+        <li>
+          <strong>SMS and voice commands</strong>
+          <p>
+            Send SMS, receive inbound messages, place calls, and track status through
+            versioned APIs and a management portal.
+          </p>
+        </li>
+        <li>
+          <strong>Multi-device routing</strong>
+          <p>
+            Group phones, auto-select healthy devices, queue when offline, and fail
+            over across SIMs and carriers.
+          </p>
+        </li>
+        <li>
+          <strong>Self-hosted by design</strong>
+          <p>
+            Run on your own Linux host with Docker or local Python/Node. Keep numbers,
+            traffic, and credentials inside your boundary.
+          </p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section" id="stack">
+      <h2>Open stack, practical pieces</h2>
+      <p class="lead">
+        FastAPI gateway, Next.js portal, Kotlin Android app, PostgreSQL or SQLite for
+        local development.
+      </p>
+      <ul class="feature-list">
+        <li>
+          <strong>QR provisioning</strong>
+          <p>Create a device in the portal, scan once on the phone, skip typing long tokens.</p>
+        </li>
+        <li>
+          <strong>Operator dashboard</strong>
+          <p>Watch online status, battery, messages, calls, API keys, and routing groups.</p>
+        </li>
+        <li>
+          <strong>Documented protocol</strong>
+          <p>REST + WebSocket contracts so you can integrate any language or automation.</p>
+        </li>
+      </ul>
+    </section>
+
+    <div class="cta-band">
+      <div>
+        <h2>Deploy your own gateway</h2>
+        <p>Follow the installation guide and connect your first Android device in minutes.</p>
+      </div>
+      <a class="btn btn-primary" href="docs/installation.html">Installation guide</a>
+    </div>
+
+    <footer class="site-footer">
+      <span>Cellular Gateway by ClapTac</span>
+      <span>
+        <a href="https://github.com/CLAPTAC/cellular-gateway">Source</a>
+        ·
+        <a href="docs/">Documentation</a>
+      </span>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QR provisioning — Cellular Gateway</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header docs solid">
+      <a class="brand-mark" href="../">Cellular Gateway</a>
+      <nav class="nav"><a href="../">Home</a><a href="./">Docs</a><a href="https://github.com/CLAPTAC/cellular-gateway">GitHub</a></nav>
+    </header>
+    <div class="docs-shell">
+      <aside class="docs-side">
+        <h2>Docs</h2>
+        <a href="./">Overview</a>
+        <a href="installation.html">Installation</a>
+        <a href="api.html">API</a>
+        <a href="android.html">Android app</a>
+        <a href="websocket.html">WebSocket protocol</a>
+        <a href="sms.html">SMS</a>
+        <a href="voice.html">Voice</a>
+        <a href="multi-device.html">Multi-device</a>
+        <a class="active" href="qr-provisioning.html">QR provisioning</a>
+      </aside>
+      <main class="docs-main">
+        <h1>QR provisioning</h1>
+        <p>Avoid typing long device tokens. The dashboard encodes connection details into a QR code.</p>
+        <h2>Payload</h2>
+        <pre><code>{
+  "v": 1,
+  "server_url": "http://10.16.56.90:8000",
+  "device_key": "dev_...",
+  "device_token": "dvt_..."
+}</code></pre>
+        <h2>Flow</h2>
+        <ol>
+          <li>Create a device (or use <strong>Show QR again</strong> to rotate the token).</li>
+          <li>Set <strong>Server URL for the phone</strong> to a LAN-reachable address.</li>
+          <li>On the phone, tap <strong>Scan QR</strong>.</li>
+          <li>The app fills credentials and connects.</li>
+        </ol>
+      </main>
+    </div>
+  </body>
+</html>

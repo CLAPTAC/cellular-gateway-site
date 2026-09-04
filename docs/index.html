@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Documentation — Cellular Gateway</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header docs solid">
+      <a class="brand-mark" href="../">Cellular Gateway</a>
+      <nav class="nav">
+        <a href="../">Home</a>
+        <a href="./">Docs</a>
+        <a href="https://github.com/CLAPTAC/cellular-gateway">GitHub</a>
+      </nav>
+    </header>
+
+    <div class="docs-shell">
+      <aside class="docs-side">
+        <h2>Docs</h2>
+        <a class="active" href="./">Overview</a>
+        <a href="installation.html">Installation</a>
+        <a href="api.html">API</a>
+        <a href="android.html">Android app</a>
+        <a href="websocket.html">WebSocket protocol</a>
+        <a href="sms.html">SMS</a>
+        <a href="voice.html">Voice</a>
+        <a href="multi-device.html">Multi-device</a>
+        <a href="qr-provisioning.html">QR provisioning</a>
+      </aside>
+
+      <main class="docs-main">
+        <h1>Documentation</h1>
+        <p>
+          Cellular Gateway is an open-source, self-hosted platform that turns Android
+          phones into managed SMS and voice gateways for your applications.
+        </p>
+
+        <h2>Architecture</h2>
+        <pre><code>External App  --REST-->  Gateway Server  --WebSocket-->  Android Device</code></pre>
+
+        <h2>Components</h2>
+        <ul>
+          <li><strong>Server</strong> — FastAPI, PostgreSQL/SQLite, device sessions, commands</li>
+          <li><strong>Android app</strong> — Kotlin gateway with QR setup, SMS, and calls</li>
+          <li><strong>Dashboard</strong> — Next.js management portal</li>
+        </ul>
+
+        <h2>Current capabilities</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Phase</th>
+              <th>Capability</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Core device link, auth, heartbeats, commands, portal</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Real SMS send/receive + message history</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Voice call start/end + call state history</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Device groups, routing, queue, failover</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Start here</h2>
+        <ol>
+          <li><a href="installation.html">Install the server and dashboard</a></li>
+          <li><a href="android.html">Connect an Android device</a></li>
+          <li><a href="api.html">Send your first API request</a></li>
+        </ol>
+      </main>
+    </div>
+  </body>
+</html>
