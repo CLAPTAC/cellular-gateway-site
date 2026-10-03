@@ -1,71 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>WebSocket protocol — Cellular Gateway</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../styles.css" />
-  </head>
-  <body>
-    <header class="site-header docs solid">
-      <a class="brand-mark" href="../">Cellular Gateway</a>
-      <nav class="nav"><a href="../">Home</a><a href="./">Docs</a><a href="https://github.com/CLAPTAC/cellular-gateway">GitHub</a></nav>
-    </header>
-    <div class="docs-shell">
-      <aside class="docs-side">
-        <h2>Docs</h2>
-        <a href="./">Overview</a>
-        <a href="installation.html">Installation</a>
-        <a href="api.html">API</a>
-        <a href="android.html">Android app</a>
-        <a class="active" href="websocket.html">WebSocket protocol</a>
-        <a href="sms.html">SMS</a>
-        <a href="voice.html">Voice</a>
-        <a href="multi-device.html">Multi-device</a>
-        <a href="qr-provisioning.html">QR provisioning</a>
-      </aside>
-      <main class="docs-main">
-        <h1>WebSocket protocol</h1>
-        <p>Devices connect to:</p>
-        <pre><code>WS /ws/devices?device_key=...&amp;device_token=...</code></pre>
-        <h2>Server → device command</h2>
-        <pre><code>{
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WebSocket protocol · Cellular Gateway</title>
+<meta name="description" content="The device channel: authentication, message types, command acknowledgements, heartbeats and close codes.">
+<meta property="og:title" content="WebSocket protocol · Cellular Gateway">
+<meta property="og:description" content="The device channel: authentication, message types, command acknowledgements, heartbeats and close codes.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#047857">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>(function(){var t=null;try{t=localStorage.getItem("cg-theme")}catch(e){}if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t)})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-root="../">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="topbar">
+  <button class="icon-btn menu-btn" type="button" data-menu aria-label="Toggle navigation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="../"><svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#10b981"/><stop offset="1" stop-color="#047857"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#lg)"/><path d="M9.5 21.5a9 9 0 0 1 0-11M22.5 10.5a9 9 0 0 1 0 11M13 18.5a4.5 4.5 0 0 1 0-5M19 13.5a4.5 4.5 0 0 1 0 5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="16" r="1.9" fill="#fff"/></svg><span>Cellular Gateway</span></a>
+  <nav class="topnav" aria-label="Primary">
+    <a href="../docs/" aria-current="page">Docs</a>
+    <a href="../docs/api.html">API</a>
+    <a href="../docs/deployment.html">Deploy</a>
+  </nav>
+  <span class="topbar-spacer"></span>
+  <button class="search-btn" type="button" data-search aria-label="Search documentation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><span>Search docs</span><kbd>Ctrl K</kbd></button>
+  <button class="icon-btn" type="button" data-theme-toggle aria-label="Toggle colour theme"><span class="theme-moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></span><span class="theme-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span></button>
+  <a class="icon-btn" href="https://github.com/CLAPTAC/cellular-gateway" aria-label="GitHub repository"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg></a>
+</header>
+<div class="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+  <div class="search-box"><input type="search" placeholder="Search the documentation…" aria-label="Search query" autocomplete="off"><div class="search-results"></div></div>
+</div>
+<div class="docs-shell">
+<nav class="sidebar" aria-label="Documentation">
+<h2>Get started</h2>
+<a href="./">Overview</a>
+<a href="installation.html">Quickstart</a>
+<h2>Deploy</h2>
+<a href="deployment.html">Production</a>
+<a href="shared-host.html">Behind a reverse proxy</a>
+<a href="configuration.html">Configuration</a>
+<h2>Integrate</h2>
+<a href="api.html">API reference</a>
+<a href="webhooks.html">Webhooks</a>
+<a href="sms.html">SMS</a>
+<a href="voice.html">Voice</a>
+<a href="multi-device.html">Multi-device routing</a>
+<h2>Devices</h2>
+<a href="android.html">Android app</a>
+<a href="qr-provisioning.html">QR provisioning</a>
+<a href="websocket.html" class="active" aria-current="page">WebSocket protocol</a>
+<h2>Operate</h2>
+<a href="security.html">Security</a>
+<a href="operations.html">Operations and limits</a>
+</nav>
+<main class="content" id="main"><article class="article">
+<span class="eyebrow">Devices</span>
+<h1>WebSocket protocol</h1>
+<p class="lead">The device channel: authentication, message types, command acknowledgements, heartbeats and close codes.</p>
+<p>Phones keep one WebSocket open to the server. The server pushes commands, and the phone reports acknowledgements, heartbeats, inbound SMS and call state. Every message is a JSON object with a <code>type</code>.</p>
+
+<h2 id="connect">Connect<a class="anchor" href="#connect" aria-label="Link to this section">#</a></h2>
+<ol class="steps">
+<li><strong>Register.</strong> The phone calls <code>POST /api/v1/devices/register</code> with its key and token.</li>
+<li><strong>Open the socket</strong> at <code>wss://&lt;host&gt;/ws/devices</code>.</li>
+<li><strong>Authenticate.</strong> The server replies with <code>ready</code>, or closes with an error code.</li>
+</ol>
+<div class="codeblock" data-lang="http"><div class="code-head"><span>Handshake headers</span><button class="copy-btn" type="button">Copy</button></div><pre><code>GET /ws/devices
+X-Device-Key: dev_...
+X-Device-Token: dvt_...</code></pre></div>
+<p>Headers keep credentials out of proxy and access logs. The query form <code>/ws/devices?device_key=...&amp;device_token=...</code> is still accepted for simple clients (the bundled simulator uses it), but avoid it in production. A new connection for the same device replaces the old one.</p>
+
+<h2 id="server-to-phone">Server to phone<a class="anchor" href="#server-to-phone" aria-label="Link to this section">#</a></h2>
+<div class="codeblock" data-lang="json"><div class="code-head"><span>ready</span><button class="copy-btn" type="button">Copy</button></div><pre><code>{ "type": "ready", "connection_id": "...", "device_id": "...", "timestamp": "2026-01-01T12:00:00+00:00" }</code></pre></div>
+<div class="codeblock" data-lang="json"><div class="code-head"><span>command</span><button class="copy-btn" type="button">Copy</button></div><pre><code>{
   "type": "command",
   "command": {
     "type": "SMS_SEND",
-    "request_id": "req_...",
+    "request_id": "req_123",
     "device_id": "...",
-    "payload": { "to": "+94...", "message": "Hello" }
+    "payload": { "to": "+15551234567", "message": "Hello" }
   }
-}</code></pre>
-        <h2>Device → server</h2>
-        <pre><code>{
-  "type": "heartbeat",
-  "payload": { "battery": 90, "signal_strength": 80, "network": "4G" }
-}
+}</code></pre></div>
+<p>Command types in the schema: <code>SMS_SEND</code>, <code>SMS_CANCEL</code>, <code>CALL_START</code>, <code>CALL_END</code>, <code>DEVICE_STATUS</code>, <code>DEVICE_COMMAND</code>, <code>PING</code>. The Android app executes <code>SMS_SEND</code>, <code>CALL_START</code>, <code>CALL_END</code>, <code>PING</code> and <code>DEVICE_STATUS</code>, and answers anything else with a <code>FAILED</code> acknowledgement.</p>
+<p>Other server messages: <code>heartbeat_ack</code>, <code>command_ack_received</code> (with <code>request_id</code> and <code>status</code>), <code>sms_received_ack</code> (with <code>message_id</code>), <code>call_state_ack</code> (with <code>call_id</code> and <code>status</code>), <code>pong</code>, and <code>error</code> (with <code>message</code>) for unknown message types.</p>
 
-{
+<h2 id="phone-to-server">Phone to server<a class="anchor" href="#phone-to-server" aria-label="Link to this section">#</a></h2>
+<div class="codeblock" data-lang="json"><div class="code-head"><span>heartbeat</span><button class="copy-btn" type="button">Copy</button></div><pre><code>{
+  "type": "heartbeat",
+  "payload": {
+    "battery": 87,
+    "signal_strength": 78,
+    "network": "4G",
+    "manufacturer": "Google",
+    "model": "Pixel",
+    "android_version": "14",
+    "app_version": "0.3.0"
+  }
+}</code></pre></div>
+<p><code>battery</code> and <code>signal_strength</code> are integers from 0 to 100. The Android app sends a heartbeat every 10 seconds.</p>
+<div class="codeblock" data-lang="json"><div class="code-head"><span>command_ack</span><button class="copy-btn" type="button">Copy</button></div><pre><code>{
   "type": "command_ack",
   "payload": {
-    "request_id": "req_...",
+    "request_id": "req_123",
     "status": "COMPLETED",
-    "result": { "sent": true }
+    "result": { "sent": true, "to": "+15551234567", "parts": 1 },
+    "error_message": null
   }
-}
+}</code></pre></div>
+<p>Typical statuses: <code>ACKNOWLEDGED</code> first, then <code>COMPLETED</code> or <code>FAILED</code> (<code>CANCELLED</code> is also valid). On failure include <code>error_message</code>.</p>
+<div class="codeblock" data-lang="json"><div class="code-head"><span>sms_received</span><button class="copy-btn" type="button">Copy</button></div><pre><code>{ "type": "sms_received", "payload": { "from": "+15551234567", "body": "Hello", "to": null, "received_at": null } }</code></pre></div>
+<p><code>to</code>, <code>received_at</code> and <code>metadata</code> are optional.</p>
+<div class="codeblock" data-lang="json"><div class="code-head"><span>call_state</span><button class="copy-btn" type="button">Copy</button></div><pre><code>{ "type": "call_state", "payload": { "state": "ACTIVE", "number": "+15551234567", "request_id": "req_456", "call_id": "..." } }</code></pre></div>
+<p>Reported states include <code>DIALING</code>, <code>RINGING</code>, <code>ACTIVE</code>, <code>IDLE</code> and <code>ENDED</code>. The server maps them to call statuses.</p>
+<div class="codeblock" data-lang="json"><div class="code-head"><span>ping</span><button class="copy-btn" type="button">Copy</button></div><pre><code>{ "type": "ping" }</code></pre></div>
+<p>The server answers with <code>{"type": "pong"}</code>. Separately, the Android client sends WebSocket protocol pings every 20 seconds.</p>
 
-{
-  "type": "sms_received",
-  "payload": { "from": "+94...", "body": "Reply text" }
-}
+<h2 id="close-codes">Close codes<a class="anchor" href="#close-codes" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Code</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><code>4401</code></td><td>Unauthorized: unknown device or wrong token</td></tr>
+<tr><td><code>4403</code></td><td>Device disabled</td></tr>
+<tr><td><code>4404</code></td><td>Device not found</td></tr>
+<tr><td><code>4000</code></td><td>Replaced by a newer connection from the same device</td></tr>
+<tr><td><code>4429</code></td><td>Too many failed attempts from this IP</td></tr>
+<tr><td><code>1011</code></td><td>Server error</td></tr>
+</tbody></table></div>
 
-{
-  "type": "call_state",
-  "payload": { "state": "ACTIVE", "request_id": "req_...", "call_id": "..." }
-}</code></pre>
-      </main>
-    </div>
-  </body>
+<h2 id="presence-and-offline-detection">Presence and offline detection<a class="anchor" href="#presence-and-offline-detection" aria-label="Link to this section">#</a></h2>
+<p>A device is <code>ONLINE</code> while its socket is open. If a device has no live socket and its last heartbeat is older than <code>DEVICE_HEARTBEAT_TIMEOUT_SECONDS</code> (default 45), a background check marks it <code>OFFLINE</code>. Queued commands are dispatched when it reconnects.</p>
+
+<nav class="pager" aria-label="Pagination"><a class="prev" href="qr-provisioning.html"><small>Previous</small>QR provisioning</a><a class="next" href="security.html"><small>Next</small>Security</a></nav>
+<p class="edit-link">Found a problem? <a href="https://github.com/CLAPTAC/cellular-gateway/issues">Open an issue</a>.</p>
+</article></main>
+<aside class="toc" aria-label="On this page"><h2>On this page</h2><a href="#connect">Connect</a><a href="#server-to-phone">Server to phone</a><a href="#phone-to-server">Phone to server</a><a href="#close-codes">Close codes</a><a href="#presence-and-offline-detection">Presence and offline detection</a></aside>
+</div>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/site.js"></script>
+</body>
 </html>

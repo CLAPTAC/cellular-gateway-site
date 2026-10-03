@@ -1,56 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Multi-device — Cellular Gateway</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../styles.css" />
-  </head>
-  <body>
-    <header class="site-header docs solid">
-      <a class="brand-mark" href="../">Cellular Gateway</a>
-      <nav class="nav"><a href="../">Home</a><a href="./">Docs</a><a href="https://github.com/CLAPTAC/cellular-gateway">GitHub</a></nav>
-    </header>
-    <div class="docs-shell">
-      <aside class="docs-side">
-        <h2>Docs</h2>
-        <a href="./">Overview</a>
-        <a href="installation.html">Installation</a>
-        <a href="api.html">API</a>
-        <a href="android.html">Android app</a>
-        <a href="websocket.html">WebSocket protocol</a>
-        <a href="sms.html">SMS</a>
-        <a href="voice.html">Voice</a>
-        <a class="active" href="multi-device.html">Multi-device</a>
-        <a href="qr-provisioning.html">QR provisioning</a>
-      </aside>
-      <main class="docs-main">
-        <h1>Multi-device routing</h1>
-        <p>Phase 4 pools multiple Android gateways behind groups and routing strategies.</p>
-        <h2>Strategies</h2>
-        <ul>
-          <li><code>healthiest</code></li>
-          <li><code>round_robin</code></li>
-          <li><code>highest_battery</code></li>
-          <li><code>least_load</code></li>
-        </ul>
-        <h2>Send via group</h2>
-        <pre><code>POST /api/v1/messages
-{
-  "group": "dialog-pool",
-  "to": "+9477xxxxxxx",
-  "message": "Routed SMS",
-  "queue": true,
-  "failover": true
-}</code></pre>
-        <p>
-          <code>queue=true</code> waits for an online member.
-          <code>failover=true</code> retries another device after SMS failure.
-        </p>
-      </main>
-    </div>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multi-device routing · Cellular Gateway</title>
+<meta name="description" content="Pool phones into groups, choose a device by health, battery or load, queue while offline, and fail SMS over to another phone.">
+<meta property="og:title" content="Multi-device routing · Cellular Gateway">
+<meta property="og:description" content="Pool phones into groups, choose a device by health, battery or load, queue while offline, and fail SMS over to another phone.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#047857">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>(function(){var t=null;try{t=localStorage.getItem("cg-theme")}catch(e){}if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t)})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-root="../">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="topbar">
+  <button class="icon-btn menu-btn" type="button" data-menu aria-label="Toggle navigation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="../"><svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#10b981"/><stop offset="1" stop-color="#047857"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#lg)"/><path d="M9.5 21.5a9 9 0 0 1 0-11M22.5 10.5a9 9 0 0 1 0 11M13 18.5a4.5 4.5 0 0 1 0-5M19 13.5a4.5 4.5 0 0 1 0 5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="16" r="1.9" fill="#fff"/></svg><span>Cellular Gateway</span></a>
+  <nav class="topnav" aria-label="Primary">
+    <a href="../docs/" aria-current="page">Docs</a>
+    <a href="../docs/api.html">API</a>
+    <a href="../docs/deployment.html">Deploy</a>
+  </nav>
+  <span class="topbar-spacer"></span>
+  <button class="search-btn" type="button" data-search aria-label="Search documentation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><span>Search docs</span><kbd>Ctrl K</kbd></button>
+  <button class="icon-btn" type="button" data-theme-toggle aria-label="Toggle colour theme"><span class="theme-moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></span><span class="theme-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span></button>
+  <a class="icon-btn" href="https://github.com/CLAPTAC/cellular-gateway" aria-label="GitHub repository"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg></a>
+</header>
+<div class="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+  <div class="search-box"><input type="search" placeholder="Search the documentation…" aria-label="Search query" autocomplete="off"><div class="search-results"></div></div>
+</div>
+<div class="docs-shell">
+<nav class="sidebar" aria-label="Documentation">
+<h2>Get started</h2>
+<a href="./">Overview</a>
+<a href="installation.html">Quickstart</a>
+<h2>Deploy</h2>
+<a href="deployment.html">Production</a>
+<a href="shared-host.html">Behind a reverse proxy</a>
+<a href="configuration.html">Configuration</a>
+<h2>Integrate</h2>
+<a href="api.html">API reference</a>
+<a href="webhooks.html">Webhooks</a>
+<a href="sms.html">SMS</a>
+<a href="voice.html">Voice</a>
+<a href="multi-device.html" class="active" aria-current="page">Multi-device routing</a>
+<h2>Devices</h2>
+<a href="android.html">Android app</a>
+<a href="qr-provisioning.html">QR provisioning</a>
+<a href="websocket.html">WebSocket protocol</a>
+<h2>Operate</h2>
+<a href="security.html">Security</a>
+<a href="operations.html">Operations and limits</a>
+</nav>
+<main class="content" id="main"><article class="article">
+<span class="eyebrow">Integrate</span>
+<h1>Multi-device routing</h1>
+<p class="lead">Pool phones into groups, choose a device by health, battery or load, queue while offline, and fail SMS over to another phone.</p>
+<h2 id="overview">Overview<a class="anchor" href="#overview" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Device <strong>groups</strong> hold the phones you want to use together, for example one per carrier.</li>
+<li>Four routing <strong>strategies</strong> pick a phone for each message or call.</li>
+<li>If you omit both <code>device</code> and <code>group</code>, the gateway chooses among all enabled devices.</li>
+<li><code>queue: true</code> keeps a message or call until a suitable phone is online. Sending to a group queues automatically.</li>
+<li>A failed SMS sent through a group is retried on another member (<strong>failover</strong>).</li>
+</ul>
+
+<h2 id="create-a-group">Create a group<a class="anchor" href="#create-a-group" aria-label="Link to this section">#</a></h2>
+<p>Use the dashboard's <em>Groups</em> page, or the API (administrator):</p>
+<div class="codeblock" data-lang="bash"><div class="code-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>curl -X POST https://gateway.example.com/api/v1/groups \
+  -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
+  -d '{
+    "name": "Dialog pool",
+    "slug": "dialog-pool",
+    "routing_strategy": "healthiest",
+    "device_ids": ["DEVICE_UUID_1", "DEVICE_UUID_2"]
+  }'</code></pre></div>
+
+<h2 id="send-through-a-group">Send through a group<a class="anchor" href="#send-through-a-group" aria-label="Link to this section">#</a></h2>
+<div class="codeblock" data-lang="bash"><div class="code-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>curl -X POST https://gateway.example.com/api/v1/messages \
+  -H "X-API-Key: $API_KEY" -H "Content-Type: application/json" \
+  -d '{
+    "group": "dialog-pool",
+    "to": "+15551234567",
+    "message": "Routed SMS",
+    "queue": true,
+    "failover": true
+  }'</code></pre></div>
+
+<h2 id="strategies">Strategies<a class="anchor" href="#strategies" aria-label="Link to this section">#</a></h2>
+<p>Online phones are always preferred over offline ones. Within that set:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Strategy</th><th>Chooses</th></tr></thead>
+<tbody>
+<tr><td><code>healthiest</code> (default)</td><td>The highest health score (see below)</td></tr>
+<tr><td><code>round_robin</code></td><td>The phone with the fewest in-flight commands, then by score. It balances by current load, not a strict rotation</td></tr>
+<tr><td><code>highest_battery</code></td><td>The phone with the most battery</td></tr>
+<tr><td><code>least_load</code></td><td>The fewest in-flight commands plus active calls</td></tr>
+</tbody></table></div>
+
+<h3 id="health-score">Health score<a class="anchor" href="#health-score" aria-label="Link to this section">#</a></h3>
+<p>Each enabled phone gets a score. Higher is better.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Component</th><th>Effect</th></tr></thead>
+<tbody>
+<tr><td>Online (live WebSocket)</td><td>+1000</td></tr>
+<tr><td>Battery above the device's minimum</td><td>+2 per percentage point (minimum defaults to 15%)</td></tr>
+<tr><td>In-flight commands (queued, sent, acknowledged)</td><td>up to +200, minus 20 per command</td></tr>
+<tr><td>Active calls</td><td>up to +100, minus 50 per call</td></tr>
+<tr><td>Priority (1 to 1000, default 100)</td><td>+(200 minus priority), never below 0. Lower numbers rank higher</td></tr>
+<tr><td>Battery below the minimum</td><td>-500</td></tr>
+</tbody></table></div>
+<p>Signal strength is not part of the score. Preview a decision without sending anything with <code>GET /api/v1/groups/{id}/preview</code> or <code>GET /api/v1/groups/route-preview</code>.</p>
+
+<h2 id="queueing">Queueing<a class="anchor" href="#queueing" aria-label="Link to this section">#</a></h2>
+<p>With <code>queue: true</code> (or any group send), a command for an offline phone is stored as <code>QUEUED</code>. A background worker checks every 5 seconds and dispatches it when the phone connects. With <code>queue: true</code> on a group send it can also reassign the command to another online member instead of waiting.</p>
+
+<h2 id="failover">Failover<a class="anchor" href="#failover" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Applies to <strong>SMS only</strong>, and only when the message was sent to a <code>group</code>.</li>
+<li>After a <code>FAILED</code> result the gateway retries on another group member, excluding the phone that failed.</li>
+<li>There are at most 3 attempts in total. Set <code>failover: false</code> to disable it.</li>
+<li>Calls are never retried automatically.</li>
+</ul>
+
+<nav class="pager" aria-label="Pagination"><a class="prev" href="voice.html"><small>Previous</small>Voice</a><a class="next" href="android.html"><small>Next</small>Android app</a></nav>
+<p class="edit-link">Found a problem? <a href="https://github.com/CLAPTAC/cellular-gateway/issues">Open an issue</a>.</p>
+</article></main>
+<aside class="toc" aria-label="On this page"><h2>On this page</h2><a href="#overview">Overview</a><a href="#create-a-group">Create a group</a><a href="#send-through-a-group">Send through a group</a><a href="#strategies">Strategies</a><a href="#health-score" class="sub">Health score</a><a href="#queueing">Queueing</a><a href="#failover">Failover</a></aside>
+</div>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/site.js"></script>
+</body>
 </html>

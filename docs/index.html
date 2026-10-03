@@ -1,93 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Documentation — Cellular Gateway</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../styles.css" />
-  </head>
-  <body>
-    <header class="site-header docs solid">
-      <a class="brand-mark" href="../">Cellular Gateway</a>
-      <nav class="nav">
-        <a href="../">Home</a>
-        <a href="./">Docs</a>
-        <a href="https://github.com/CLAPTAC/cellular-gateway">GitHub</a>
-      </nav>
-    </header>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Overview · Cellular Gateway</title>
+<meta name="description" content="Cellular Gateway is an open-source, self-hosted platform that turns Android phones into managed SMS and voice gateways for your applications.">
+<meta property="og:title" content="Overview · Cellular Gateway">
+<meta property="og:description" content="Cellular Gateway is an open-source, self-hosted platform that turns Android phones into managed SMS and voice gateways for your applications.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#047857">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>(function(){var t=null;try{t=localStorage.getItem("cg-theme")}catch(e){}if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t)})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-root="../">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="topbar">
+  <button class="icon-btn menu-btn" type="button" data-menu aria-label="Toggle navigation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="../"><svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#10b981"/><stop offset="1" stop-color="#047857"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#lg)"/><path d="M9.5 21.5a9 9 0 0 1 0-11M22.5 10.5a9 9 0 0 1 0 11M13 18.5a4.5 4.5 0 0 1 0-5M19 13.5a4.5 4.5 0 0 1 0 5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="16" r="1.9" fill="#fff"/></svg><span>Cellular Gateway</span></a>
+  <nav class="topnav" aria-label="Primary">
+    <a href="../docs/" aria-current="page">Docs</a>
+    <a href="../docs/api.html">API</a>
+    <a href="../docs/deployment.html">Deploy</a>
+  </nav>
+  <span class="topbar-spacer"></span>
+  <button class="search-btn" type="button" data-search aria-label="Search documentation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><span>Search docs</span><kbd>Ctrl K</kbd></button>
+  <button class="icon-btn" type="button" data-theme-toggle aria-label="Toggle colour theme"><span class="theme-moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></span><span class="theme-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span></button>
+  <a class="icon-btn" href="https://github.com/CLAPTAC/cellular-gateway" aria-label="GitHub repository"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg></a>
+</header>
+<div class="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+  <div class="search-box"><input type="search" placeholder="Search the documentation…" aria-label="Search query" autocomplete="off"><div class="search-results"></div></div>
+</div>
+<div class="docs-shell">
+<nav class="sidebar" aria-label="Documentation">
+<h2>Get started</h2>
+<a href="./" class="active" aria-current="page">Overview</a>
+<a href="installation.html">Quickstart</a>
+<h2>Deploy</h2>
+<a href="deployment.html">Production</a>
+<a href="shared-host.html">Behind a reverse proxy</a>
+<a href="configuration.html">Configuration</a>
+<h2>Integrate</h2>
+<a href="api.html">API reference</a>
+<a href="webhooks.html">Webhooks</a>
+<a href="sms.html">SMS</a>
+<a href="voice.html">Voice</a>
+<a href="multi-device.html">Multi-device routing</a>
+<h2>Devices</h2>
+<a href="android.html">Android app</a>
+<a href="qr-provisioning.html">QR provisioning</a>
+<a href="websocket.html">WebSocket protocol</a>
+<h2>Operate</h2>
+<a href="security.html">Security</a>
+<a href="operations.html">Operations and limits</a>
+</nav>
+<main class="content" id="main"><article class="article">
+<span class="eyebrow">Get started</span>
+<h1>Overview</h1>
+<p class="lead">Cellular Gateway is an open-source, self-hosted platform that turns Android phones into managed SMS and voice gateways for your applications.</p>
+<h2 id="what-it-does">What it does<a class="anchor" href="#what-it-does" aria-label="Link to this section">#</a></h2>
+<p>You run a gateway server and connect one or more Android phones to it. Your applications call the server's REST API to send SMS or place calls, and the server forwards each request to a phone over a persistent WebSocket. The phone uses its own SIM, then reports the result. Inbound SMS and status changes can be delivered to your systems as signed webhooks.</p>
 
-    <div class="docs-shell">
-      <aside class="docs-side">
-        <h2>Docs</h2>
-        <a class="active" href="./">Overview</a>
-        <a href="installation.html">Installation</a>
-        <a href="api.html">API</a>
-        <a href="android.html">Android app</a>
-        <a href="websocket.html">WebSocket protocol</a>
-        <a href="sms.html">SMS</a>
-        <a href="voice.html">Voice</a>
-        <a href="multi-device.html">Multi-device</a>
-        <a href="qr-provisioning.html">QR provisioning</a>
-      </aside>
+<div class="codeblock" data-lang="text"><div class="code-head"><span>Request path</span><button class="copy-btn" type="button">Copy</button></div><pre><code>Your application  --REST--&gt;  Gateway server  --WebSocket--&gt;  Android phone  --&gt;  SIM / carrier
+                    ^                |
+                    '----webhooks----'</code></pre></div>
 
-      <main class="docs-main">
-        <h1>Documentation</h1>
-        <p>
-          Cellular Gateway is an open-source, self-hosted platform that turns Android
-          phones into managed SMS and voice gateways for your applications.
-        </p>
+<div class="card-grid">
+  <a class="card" href="installation.html"><div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg></div><h3 id="quickstart">Quickstart<a class="anchor" href="#quickstart" aria-label="Link to this section">#</a></h3><p>Run the server, dashboard and a simulated phone on your machine in minutes.</p></a>
+  <a class="card" href="deployment.html"><div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><path d="M6 7h.01M6 17h.01"/></svg></div><h3 id="deploy-to-a-server">Deploy to a server<a class="anchor" href="#deploy-to-a-server" aria-label="Link to this section">#</a></h3><p>Docker Compose with automatic HTTPS, migrations and production safety checks.</p></a>
+  <a class="card" href="api.html"><div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5V21h16"/></svg></div><h3 id="api-reference">API reference<a class="anchor" href="#api-reference" aria-label="Link to this section">#</a></h3><p>Authentication, messages, calls, commands, devices, groups and more.</p></a>
+  <a class="card" href="webhooks.html"><div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg></div><h3 id="webhooks">Webhooks<a class="anchor" href="#webhooks" aria-label="Link to this section">#</a></h3><p>Event types, payloads, signature verification and retry behaviour.</p></a>
+</div>
 
-        <h2>Architecture</h2>
-        <pre><code>External App  --REST-->  Gateway Server  --WebSocket-->  Android Device</code></pre>
+<h2 id="components">Components<a class="anchor" href="#components" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Part</th><th>Role</th><th>Stack</th></tr></thead>
+<tbody>
+<tr><td><code>server/</code></td><td>Gateway API, WebSocket hub, queue and webhook workers</td><td>Python 3.12, FastAPI, SQLAlchemy (async), Alembic, PostgreSQL 16</td></tr>
+<tr><td><code>dashboard/</code></td><td>Management portal for devices, groups, messages, calls, webhooks, users and API keys</td><td>Next.js 15, React 19, Tailwind CSS</td></tr>
+<tr><td><code>android/</code></td><td>Phone app: foreground service, SMS and call control, WebSocket client</td><td>Kotlin, OkHttp; <code>minSdk</code> 26, <code>targetSdk</code> 35</td></tr>
+<tr><td><code>examples/</code></td><td>Device simulator for testing without a phone</td><td>Python</td></tr>
+</tbody></table></div>
 
-        <h2>Components</h2>
-        <ul>
-          <li><strong>Server</strong> — FastAPI, PostgreSQL/SQLite, device sessions, commands</li>
-          <li><strong>Android app</strong> — Kotlin gateway with QR setup, SMS, and calls</li>
-          <li><strong>Dashboard</strong> — Next.js management portal</li>
-        </ul>
+<h2 id="what-happens-when-you-send-an-sms">What happens when you send an SMS<a class="anchor" href="#what-happens-when-you-send-an-sms" aria-label="Link to this section">#</a></h2>
+<ol class="steps">
+<li><strong>Request.</strong> Your service calls <code>POST /api/v1/messages</code> with an API key. The gateway validates the request and chooses a device by device key, group strategy, or health score.</li>
+<li><strong>Command.</strong> The gateway stores the message and an <code>SMS_SEND</code> command. If the chosen phone is offline and queueing is allowed, the command waits as <code>QUEUED</code>.</li>
+<li><strong>Delivery to the phone.</strong> The command is pushed over the phone's WebSocket. The phone acknowledges it (<code>ACKNOWLEDGED</code>) and hands the text to Android's SMS service.</li>
+<li><strong>Result.</strong> The phone reports <code>COMPLETED</code> or <code>FAILED</code>. The message status updates, and <code>SMS_SENT</code> or <code>SMS_FAILED</code> webhooks fire. A failed SMS sent through a group is retried on another phone.</li>
+</ol>
 
-        <h2>Current capabilities</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Phase</th>
-              <th>Capability</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Core device link, auth, heartbeats, commands, portal</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Real SMS send/receive + message history</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Voice call start/end + call state history</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>Device groups, routing, queue, failover</td>
-            </tr>
-          </tbody>
-        </table>
+<div class="callout note"><strong>Before you rely on it</strong><p>SMS and call behaviour has been verified with the simulator and automated tests but not yet on physical phones with SIM cards. Test with real hardware before using it for anything important. See <a href="operations.html">Operations and limits</a>.</p></div>
 
-        <h2>Start here</h2>
-        <ol>
-          <li><a href="installation.html">Install the server and dashboard</a></li>
-          <li><a href="android.html">Connect an Android device</a></li>
-          <li><a href="api.html">Send your first API request</a></li>
-        </ol>
-      </main>
-    </div>
-  </body>
+<nav class="pager" aria-label="Pagination"><a class="next" href="installation.html"><small>Next</small>Quickstart</a></nav>
+<p class="edit-link">Found a problem? <a href="https://github.com/CLAPTAC/cellular-gateway/issues">Open an issue</a>.</p>
+</article></main>
+<aside class="toc" aria-label="On this page"><h2>On this page</h2><a href="#what-it-does">What it does</a><a href="#quickstart" class="sub">Quickstart</a><a href="#deploy-to-a-server" class="sub">Deploy to a server</a><a href="#api-reference" class="sub">API reference</a><a href="#webhooks" class="sub">Webhooks</a><a href="#components">Components</a><a href="#what-happens-when-you-send-an-sms">What happens when you send an SMS</a></aside>
+</div>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/site.js"></script>
+</body>
 </html>

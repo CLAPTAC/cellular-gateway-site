@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Operations and limits · Cellular Gateway</title>
+<meta name="description" content="Logs, health checks, migrations, backups, troubleshooting, and the current limitations of the gateway.">
+<meta property="og:title" content="Operations and limits · Cellular Gateway">
+<meta property="og:description" content="Logs, health checks, migrations, backups, troubleshooting, and the current limitations of the gateway.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#047857">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>(function(){var t=null;try{t=localStorage.getItem("cg-theme")}catch(e){}if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t)})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-root="../">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="topbar">
+  <button class="icon-btn menu-btn" type="button" data-menu aria-label="Toggle navigation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="../"><svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#10b981"/><stop offset="1" stop-color="#047857"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#lg)"/><path d="M9.5 21.5a9 9 0 0 1 0-11M22.5 10.5a9 9 0 0 1 0 11M13 18.5a4.5 4.5 0 0 1 0-5M19 13.5a4.5 4.5 0 0 1 0 5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="16" r="1.9" fill="#fff"/></svg><span>Cellular Gateway</span></a>
+  <nav class="topnav" aria-label="Primary">
+    <a href="../docs/" aria-current="page">Docs</a>
+    <a href="../docs/api.html">API</a>
+    <a href="../docs/deployment.html">Deploy</a>
+  </nav>
+  <span class="topbar-spacer"></span>
+  <button class="search-btn" type="button" data-search aria-label="Search documentation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><span>Search docs</span><kbd>Ctrl K</kbd></button>
+  <button class="icon-btn" type="button" data-theme-toggle aria-label="Toggle colour theme"><span class="theme-moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></span><span class="theme-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span></button>
+  <a class="icon-btn" href="https://github.com/CLAPTAC/cellular-gateway" aria-label="GitHub repository"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg></a>
+</header>
+<div class="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+  <div class="search-box"><input type="search" placeholder="Search the documentation…" aria-label="Search query" autocomplete="off"><div class="search-results"></div></div>
+</div>
+<div class="docs-shell">
+<nav class="sidebar" aria-label="Documentation">
+<h2>Get started</h2>
+<a href="./">Overview</a>
+<a href="installation.html">Quickstart</a>
+<h2>Deploy</h2>
+<a href="deployment.html">Production</a>
+<a href="shared-host.html">Behind a reverse proxy</a>
+<a href="configuration.html">Configuration</a>
+<h2>Integrate</h2>
+<a href="api.html">API reference</a>
+<a href="webhooks.html">Webhooks</a>
+<a href="sms.html">SMS</a>
+<a href="voice.html">Voice</a>
+<a href="multi-device.html">Multi-device routing</a>
+<h2>Devices</h2>
+<a href="android.html">Android app</a>
+<a href="qr-provisioning.html">QR provisioning</a>
+<a href="websocket.html">WebSocket protocol</a>
+<h2>Operate</h2>
+<a href="security.html">Security</a>
+<a href="operations.html" class="active" aria-current="page">Operations and limits</a>
+</nav>
+<main class="content" id="main"><article class="article">
+<span class="eyebrow">Operate</span>
+<h1>Operations and limits</h1>
+<p class="lead">Logs, health checks, migrations, backups, troubleshooting, and the current limitations of the gateway.</p>
+<h2 id="day-to-day">Day-to-day<a class="anchor" href="#day-to-day" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Task</th><th>How</th></tr></thead>
+<tbody>
+<tr><td>Health check</td><td><code>GET /health</code> returns <code>{"status":"ok","service":"Cellular Gateway"}</code></td></tr>
+<tr><td>Logs</td><td><code>docker compose -f docker-compose.prod.yml logs -f server</code>. Failures in the background workers (offline detection, command queue, webhook delivery) are logged</td></tr>
+<tr><td>Migrations</td><td>Applied automatically on container start. Create one with <code>alembic revision --autogenerate -m "description"</code> in <code>server/</code></td></tr>
+<tr><td>Backup</td><td><code>docker compose ... exec postgres pg_dump -U gateway cellular_gateway &gt; backup.sql</code></td></tr>
+<tr><td>Upgrade</td><td><code>git pull</code>, then <code>docker compose ... up -d --build</code>. Plan a short interruption; phones reconnect automatically</td></tr>
+</tbody></table></div>
+
+<h2 id="troubleshooting">Troubleshooting<a class="anchor" href="#troubleshooting" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Symptom</th><th>Likely cause</th></tr></thead>
+<tbody>
+<tr><td>Server exits at startup with "Refusing to start with insecure configuration"</td><td>Production safety checks. The message lists each setting to fix</td></tr>
+<tr><td><code>409 No online devices available</code></td><td>The target phone is offline and neither <code>queue</code> nor <code>group</code> was used</td></tr>
+<tr><td>Device flips between ONLINE and OFFLINE</td><td>A proxy timeout under about 30 seconds, battery optimization killing the app, or an unstable mobile connection</td></tr>
+<tr><td>Phone cannot connect from a release build</td><td>The server URL must be <code>https://</code> with a valid certificate</td></tr>
+<tr><td>Dashboard shows login errors after a domain change</td><td><code>NEXT_PUBLIC_API_URL</code> is baked in at build time; rebuild the dashboard image. Also check <code>CORS_ORIGINS</code></td></tr>
+<tr><td><code>429</code> on login</td><td>Too many failed attempts; wait for the window (default 5 minutes) or adjust <code>LOGIN_RATE_LIMIT_*</code></td></tr>
+<tr><td>Webhook creation returns <code>400</code></td><td>The URL is not <code>https</code> (in production) or resolves to a private address</td></tr>
+<tr><td>Webhooks stop arriving</td><td>Check the endpoint's delivery history. After 5 failed attempts a delivery is marked <code>FAILED</code></td></tr>
+</tbody></table></div>
+
+<h2 id="known-limitations">Known limitations<a class="anchor" href="#known-limitations" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Single server instance.</strong> Device sockets and background workers are in-process. Running more than one replica is unsupported and would need shared state such as Redis.</li>
+<li><strong>Real-phone validation.</strong> SMS and call behaviour has been tested with the simulator and automated tests, not yet on physical phones with SIM cards.</li>
+<li><strong>Placeholder signal data.</strong> The Android app currently reports a fixed signal strength and network type in its heartbeat, so those two fields in the dashboard are not real measurements. Battery level is real, and routing uses battery, not signal.</li>
+<li><strong>No carrier delivery receipts.</strong> <code>SENT</code> means the phone accepted the message, not that the recipient received it.</li>
+<li><strong>No idempotency keys</strong> on message or call creation. Deduplicate retries on your side.</li>
+<li><strong>Not yet available:</strong> scheduled messages, message templates, USSD and SIM management.</li>
+<li>API keys inherit the permissions of the administrator who created them and apply only to the <code>messages</code>, <code>calls</code> and <code>commands</code> endpoints.</li>
+<li>The rate limiter keeps its state in memory, so it resets when the server restarts.</li>
+<li>The dashboard has no automated tests. The server has a pytest suite.</li>
+</ul>
+
+<h2 id="roadmap">Roadmap<a class="anchor" href="#roadmap" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Phase</th><th>Scope</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Core platform: devices, commands, WebSocket, dashboard</td><td>Done</td></tr>
+<tr><td>2</td><td>Real SMS send and receive</td><td>Done</td></tr>
+<tr><td>3</td><td>Voice call control</td><td>Done</td></tr>
+<tr><td>4</td><td>Multi-device routing and failover</td><td>Done</td></tr>
+<tr><td>5</td><td>Webhooks, role-based access, analytics</td><td>Done</td></tr>
+<tr><td>Next</td><td>Multi-instance support, carrier delivery reports, scheduled messages and templates, USSD, SIM management, metrics export</td><td>Planned</td></tr>
+</tbody></table></div>
+
+<nav class="pager" aria-label="Pagination"><a class="prev" href="security.html"><small>Previous</small>Security</a></nav>
+<p class="edit-link">Found a problem? <a href="https://github.com/CLAPTAC/cellular-gateway/issues">Open an issue</a>.</p>
+</article></main>
+<aside class="toc" aria-label="On this page"><h2>On this page</h2><a href="#day-to-day">Day-to-day</a><a href="#troubleshooting">Troubleshooting</a><a href="#known-limitations">Known limitations</a><a href="#roadmap">Roadmap</a></aside>
+</div>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>

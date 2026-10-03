@@ -1,51 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SMS — Cellular Gateway</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../styles.css" />
-  </head>
-  <body>
-    <header class="site-header docs solid">
-      <a class="brand-mark" href="../">Cellular Gateway</a>
-      <nav class="nav"><a href="../">Home</a><a href="./">Docs</a><a href="https://github.com/CLAPTAC/cellular-gateway">GitHub</a></nav>
-    </header>
-    <div class="docs-shell">
-      <aside class="docs-side">
-        <h2>Docs</h2>
-        <a href="./">Overview</a>
-        <a href="installation.html">Installation</a>
-        <a href="api.html">API</a>
-        <a href="android.html">Android app</a>
-        <a href="websocket.html">WebSocket protocol</a>
-        <a class="active" href="sms.html">SMS</a>
-        <a href="voice.html">Voice</a>
-        <a href="multi-device.html">Multi-device</a>
-        <a href="qr-provisioning.html">QR provisioning</a>
-      </aside>
-      <main class="docs-main">
-        <h1>SMS</h1>
-        <p>Phase 2 enables real SMS send/receive through the connected Android SIM.</p>
-        <h2>Requirements</h2>
-        <ul>
-          <li>Android app with <code>SEND_SMS</code> / <code>RECEIVE_SMS</code> granted</li>
-          <li>Device status <strong>ONLINE</strong></li>
-          <li>Valid API key</li>
-        </ul>
-        <h2>Send</h2>
-        <pre><code>POST /api/v1/messages
-{
-  "device": "dev_...",
-  "to": "+9477xxxxxxx",
-  "message": "Hello"
-}</code></pre>
-        <p>Statuses move through queued/sending into <code>SENT</code> or <code>FAILED</code>. Inbound SMS appears as <code>INBOUND</code> / <code>RECEIVED</code> in message history.</p>
-        <p>Carrier charges and local messaging regulations still apply.</p>
-      </main>
-    </div>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SMS · Cellular Gateway</title>
+<meta name="description" content="Send outbound SMS through a phone&#x27;s SIM, receive inbound SMS, and track message status and failures.">
+<meta property="og:title" content="SMS · Cellular Gateway">
+<meta property="og:description" content="Send outbound SMS through a phone&#x27;s SIM, receive inbound SMS, and track message status and failures.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#047857">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>(function(){var t=null;try{t=localStorage.getItem("cg-theme")}catch(e){}if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t)})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-root="../">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="topbar">
+  <button class="icon-btn menu-btn" type="button" data-menu aria-label="Toggle navigation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="../"><svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#10b981"/><stop offset="1" stop-color="#047857"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#lg)"/><path d="M9.5 21.5a9 9 0 0 1 0-11M22.5 10.5a9 9 0 0 1 0 11M13 18.5a4.5 4.5 0 0 1 0-5M19 13.5a4.5 4.5 0 0 1 0 5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="16" r="1.9" fill="#fff"/></svg><span>Cellular Gateway</span></a>
+  <nav class="topnav" aria-label="Primary">
+    <a href="../docs/" aria-current="page">Docs</a>
+    <a href="../docs/api.html">API</a>
+    <a href="../docs/deployment.html">Deploy</a>
+  </nav>
+  <span class="topbar-spacer"></span>
+  <button class="search-btn" type="button" data-search aria-label="Search documentation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><span>Search docs</span><kbd>Ctrl K</kbd></button>
+  <button class="icon-btn" type="button" data-theme-toggle aria-label="Toggle colour theme"><span class="theme-moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></span><span class="theme-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span></button>
+  <a class="icon-btn" href="https://github.com/CLAPTAC/cellular-gateway" aria-label="GitHub repository"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg></a>
+</header>
+<div class="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+  <div class="search-box"><input type="search" placeholder="Search the documentation…" aria-label="Search query" autocomplete="off"><div class="search-results"></div></div>
+</div>
+<div class="docs-shell">
+<nav class="sidebar" aria-label="Documentation">
+<h2>Get started</h2>
+<a href="./">Overview</a>
+<a href="installation.html">Quickstart</a>
+<h2>Deploy</h2>
+<a href="deployment.html">Production</a>
+<a href="shared-host.html">Behind a reverse proxy</a>
+<a href="configuration.html">Configuration</a>
+<h2>Integrate</h2>
+<a href="api.html">API reference</a>
+<a href="webhooks.html">Webhooks</a>
+<a href="sms.html" class="active" aria-current="page">SMS</a>
+<a href="voice.html">Voice</a>
+<a href="multi-device.html">Multi-device routing</a>
+<h2>Devices</h2>
+<a href="android.html">Android app</a>
+<a href="qr-provisioning.html">QR provisioning</a>
+<a href="websocket.html">WebSocket protocol</a>
+<h2>Operate</h2>
+<a href="security.html">Security</a>
+<a href="operations.html">Operations and limits</a>
+</nav>
+<main class="content" id="main"><article class="article">
+<span class="eyebrow">Integrate</span>
+<h1>SMS</h1>
+<p class="lead">Send outbound SMS through a phone&#x27;s SIM, receive inbound SMS, and track message status and failures.</p>
+<h2 id="what-works">What works<a class="anchor" href="#what-works" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><code>POST /api/v1/messages</code> creates an outbound SMS command and a message record.</li>
+<li>An online phone sends the text with Android's <code>SmsManager</code>, splitting long messages into parts.</li>
+<li>The message moves to <code>SENT</code> or <code>FAILED</code>, and <code>SMS_SENT</code> or <code>SMS_FAILED</code> webhooks fire.</li>
+<li>Inbound SMS on the phone are reported to the server and stored as <code>INBOUND</code> messages, and an <code>SMS_RECEIVED</code> webhook fires.</li>
+<li>The dashboard's <em>Messages</em> page shows history and can send a test SMS.</li>
+</ul>
+
+<h2 id="phone-setup">Phone setup<a class="anchor" href="#phone-setup" aria-label="Link to this section">#</a></h2>
+<ol class="steps">
+<li><strong>Install and connect</strong> the Android app and scan the device QR code.</li>
+<li><strong>Allow SMS permissions</strong> when prompted (send, receive and read SMS).</li>
+<li><strong>Keep the app running.</strong> Disable battery optimization for it, and on some manufacturers (Xiaomi and similar) also allow autostart and background activity.</li>
+</ol>
+
+<h2 id="send-a-message">Send a message<a class="anchor" href="#send-a-message" aria-label="Link to this section">#</a></h2>
+<div class="tabs" data-tabs><div class="tab-list" role="tablist"><button type="button" role="tab" aria-selected="false">curl</button><button type="button" role="tab" aria-selected="false">Python</button></div><div class="tab-panel" role="tabpanel"><div class="codeblock" data-lang="bash"><div class="code-head"><span>curl</span><button class="copy-btn" type="button">Copy</button></div><pre><code>curl -X POST https://gateway.example.com/api/v1/messages \
+  -H "X-API-Key: $API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "device": "dev_YOUR_DEVICE_KEY",
+    "to": "+15551234567",
+    "message": "Hello from Cellular Gateway"
+  }'</code></pre></div></div><div class="tab-panel" role="tabpanel"><div class="codeblock" data-lang="python"><div class="code-head"><span>Python</span><button class="copy-btn" type="button">Copy</button></div><pre><code>import os, requests
+
+r = requests.post(
+    "https://gateway.example.com/api/v1/messages",
+    headers={"X-API-Key": os.environ["GATEWAY_API_KEY"]},
+    json={"device": "dev_YOUR_DEVICE_KEY", "to": "+15551234567", "message": "Hello"},
+    timeout=15,
+)
+r.raise_for_status()</code></pre></div></div></div>
+<p>Use <code>group</code> instead of <code>device</code> to let the gateway choose a phone, with queueing and failover. See <a href="multi-device.html">Multi-device routing</a> and the <a href="api.html#messages">field reference</a>.</p>
+
+<h2 id="track-the-result">Track the result<a class="anchor" href="#track-the-result" aria-label="Link to this section">#</a></h2>
+<div class="codeblock" data-lang="bash"><div class="code-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>curl https://gateway.example.com/api/v1/messages/$MESSAGE_ID -H "X-API-Key: $API_KEY"</code></pre></div>
+<div class="table-wrap"><table>
+<thead><tr><th>Status</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><code>QUEUED</code></td><td>Waiting for a phone to come online</td></tr>
+<tr><td><code>SENDING</code></td><td>Handed to a phone</td></tr>
+<tr><td><code>SENT</code></td><td>The phone's radio accepted the message</td></tr>
+<tr><td><code>DELIVERED</code></td><td>Delivery confirmed (best effort, not normalized across carriers)</td></tr>
+<tr><td><code>FAILED</code></td><td>The phone reported an error. Check <code>error_message</code></td></tr>
+<tr><td><code>RECEIVED</code></td><td>An inbound message</td></tr>
+</tbody></table></div>
+
+<h2 id="receive-messages">Receive messages<a class="anchor" href="#receive-messages" aria-label="Link to this section">#</a></h2>
+<p>Inbound SMS arrive as <code>SMS_RECEIVED</code> webhooks (body truncated to 200 characters) and are stored in full. Read them with <code>GET /api/v1/messages</code> and look for <code>direction: "INBOUND"</code>.</p>
+
+<h2 id="notes">Notes<a class="anchor" href="#notes" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Without <code>queue</code> or a <code>group</code>, an offline target device returns <code>409</code>.</li>
+<li>Carrier SMS charges and Android's sending limits apply. Android may throttle or prompt on bursts of outgoing SMS.</li>
+<li>Delivery receipts from carriers are not fully supported. Treat <code>SENT</code> as accepted for sending, not delivered.</li>
+<li>There is no idempotency key. If your request times out and you retry, the SMS may be sent twice, so deduplicate on your side.</li>
+</ul>
+
+<nav class="pager" aria-label="Pagination"><a class="prev" href="webhooks.html"><small>Previous</small>Webhooks</a><a class="next" href="voice.html"><small>Next</small>Voice</a></nav>
+<p class="edit-link">Found a problem? <a href="https://github.com/CLAPTAC/cellular-gateway/issues">Open an issue</a>.</p>
+</article></main>
+<aside class="toc" aria-label="On this page"><h2>On this page</h2><a href="#what-works">What works</a><a href="#phone-setup">Phone setup</a><a href="#send-a-message">Send a message</a><a href="#track-the-result">Track the result</a><a href="#receive-messages">Receive messages</a><a href="#notes">Notes</a></aside>
+</div>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/site.js"></script>
+</body>
 </html>

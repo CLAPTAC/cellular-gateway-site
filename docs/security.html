@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Voice · Cellular Gateway</title>
-<meta name="description" content="Start and end outbound calls through a phone and follow call state from dialing to ended.">
-<meta property="og:title" content="Voice · Cellular Gateway">
-<meta property="og:description" content="Start and end outbound calls through a phone and follow call state from dialing to ended.">
+<title>Security · Cellular Gateway</title>
+<meta name="description" content="How the gateway protects credentials, browser sessions, webhooks and the network edge, and what you still need to do.">
+<meta property="og:title" content="Security · Cellular Gateway">
+<meta property="og:description" content="How the gateway protects credentials, browser sessions, webhooks and the network edge, and what you still need to do.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#047857">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
@@ -47,71 +47,62 @@
 <a href="api.html">API reference</a>
 <a href="webhooks.html">Webhooks</a>
 <a href="sms.html">SMS</a>
-<a href="voice.html" class="active" aria-current="page">Voice</a>
+<a href="voice.html">Voice</a>
 <a href="multi-device.html">Multi-device routing</a>
 <h2>Devices</h2>
 <a href="android.html">Android app</a>
 <a href="qr-provisioning.html">QR provisioning</a>
 <a href="websocket.html">WebSocket protocol</a>
 <h2>Operate</h2>
-<a href="security.html">Security</a>
+<a href="security.html" class="active" aria-current="page">Security</a>
 <a href="operations.html">Operations and limits</a>
 </nav>
 <main class="content" id="main"><article class="article">
-<span class="eyebrow">Integrate</span>
-<h1>Voice</h1>
-<p class="lead">Start and end outbound calls through a phone and follow call state from dialing to ended.</p>
-<h2 id="what-works">What works<a class="anchor" href="#what-works" aria-label="Link to this section">#</a></h2>
-<ul>
-<li><code>POST /api/v1/calls</code> starts an outbound call on an online phone.</li>
-<li><code>POST /api/v1/calls/{id}/end</code> ends an active call (Android 9 or newer).</li>
-<li>Call state changes (<code>DIALING</code>, <code>RINGING</code>, <code>ACTIVE</code>, <code>ENDED</code> and others) are reported over the WebSocket, stored, and sent as <code>CALL_STATE</code> webhooks.</li>
-<li>Call history is available through the API and the dashboard's <em>Calls</em> page.</li>
-</ul>
-<div class="callout note"><strong>Signalling only</strong><p>The gateway dials the number through the phone's normal dialer and tracks state. Call audio is not bridged to the server.</p></div>
-
-<h2 id="phone-setup">Phone setup<a class="anchor" href="#phone-setup" aria-label="Link to this section">#</a></h2>
-<p>Allow these permissions in the Android app: call phone (<code>CALL_PHONE</code>), read phone state (<code>READ_PHONE_STATE</code>) and answer phone calls (<code>ANSWER_PHONE_CALLS</code>, needed to hang up remotely). Keep the app connected and the device online.</p>
-
-<h2 id="examples">Examples<a class="anchor" href="#examples" aria-label="Link to this section">#</a></h2>
-<div class="codeblock" data-lang="bash"><div class="code-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code># Start
-curl -X POST https://gateway.example.com/api/v1/calls \
-  -H "X-API-Key: $API_KEY" -H "Content-Type: application/json" \
-  -d '{"device": "dev_...", "to": "+15551234567"}'
-
-# End
-curl -X POST https://gateway.example.com/api/v1/calls/$CALL_ID/end \
-  -H "X-API-Key: $API_KEY"
-
-# List
-curl https://gateway.example.com/api/v1/calls -H "X-API-Key: $API_KEY"</code></pre></div>
-<p>Calls accept <code>device</code>, <code>group</code>, <code>strategy</code> and <code>queue</code> like messages do, but have no failover.</p>
-
-<h2 id="call-statuses">Call statuses<a class="anchor" href="#call-statuses" aria-label="Link to this section">#</a></h2>
+<span class="eyebrow">Operate</span>
+<h1>Security</h1>
+<p class="lead">How the gateway protects credentials, browser sessions, webhooks and the network edge, and what you still need to do.</p>
+<h2 id="what-the-gateway-enforces">What the gateway enforces<a class="anchor" href="#what-the-gateway-enforces" aria-label="Link to this section">#</a></h2>
 <div class="table-wrap"><table>
-<thead><tr><th>Status</th><th>Meaning</th></tr></thead>
+<thead><tr><th>Area</th><th>Behaviour</th></tr></thead>
 <tbody>
-<tr><td><code>QUEUED</code></td><td>Waiting for a phone to come online</td></tr>
-<tr><td><code>DIALING</code></td><td>The phone has started the call</td></tr>
-<tr><td><code>RINGING</code></td><td>Ringing</td></tr>
-<tr><td><code>ACTIVE</code></td><td>Connected</td></tr>
-<tr><td><code>HOLDING</code></td><td>On hold</td></tr>
-<tr><td><code>ENDED</code></td><td>Finished. <code>duration_seconds</code> is measured from answer time, or from dialing if the call was never answered</td></tr>
-<tr><td><code>FAILED</code>, <code>CANCELLED</code></td><td>The call did not complete</td></tr>
+<tr><td>Startup</td><td>With <code>ENVIRONMENT=production</code> the server refuses to start on default or weak secrets, SQLite, or localhost CORS</td></tr>
+<tr><td>Transport</td><td>TLS terminates at Caddy or your reverse proxy. Release builds of the Android app block plain HTTP</td></tr>
+<tr><td>Browser sessions</td><td>An <code>httpOnly</code> cookie, so page scripts cannot read the token, plus <code>SameSite=Strict</code> and an <code>Origin</code> check on cookie-authenticated writes</td></tr>
+<tr><td>Secrets at rest</td><td>Passwords, device tokens and API keys are stored as bcrypt hashes. Webhook secrets are stored in plain form because they are needed to sign deliveries</td></tr>
+<tr><td>Device credentials</td><td>Sent in <code>X-Device-Key</code> and <code>X-Device-Token</code> headers so they stay out of proxy logs. Tokens can be rotated at any time</td></tr>
+<tr><td>Rate limiting</td><td>Failed logins (per IP and per email), device registration and device WebSocket authentication. State is in memory and resets on restart</td></tr>
+<tr><td>Webhook targets</td><td><code>https</code> in production, public addresses only, checked when saved and again at delivery, with the connection pinned to the validated IP and redirects disabled</td></tr>
+<tr><td>Forwarded headers</td><td><code>X-Forwarded-For</code> is trusted only from loopback and private addresses</td></tr>
+<tr><td>Containers</td><td>The API and dashboard images run as a non-root user. In the production compose files PostgreSQL is not published to the host</td></tr>
+<tr><td>API docs</td><td><code>/docs</code>, <code>/redoc</code> and <code>/openapi.json</code> are disabled in production</td></tr>
 </tbody></table></div>
 
-<h2 id="notes">Notes<a class="anchor" href="#notes" aria-label="Link to this section">#</a></h2>
+<h2 id="roles">Roles<a class="anchor" href="#roles" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Role</th><th>Can do</th></tr></thead>
+<tbody>
+<tr><td><code>viewer</code></td><td>Read devices, groups, messages, calls, commands, dashboard and analytics</td></tr>
+<tr><td><code>operator</code></td><td>Everything a viewer can, plus send SMS, start or end calls and create commands</td></tr>
+<tr><td><code>admin</code></td><td>Everything, including devices, groups, webhooks, users and API keys</td></tr>
+</tbody></table></div>
+<p>API keys act with the permissions of the administrator who created them and are accepted only on the <code>messages</code>, <code>calls</code> and <code>commands</code> endpoints. Create one key per integration so each can be revoked on its own.</p>
+
+<h2 id="your-checklist">Your checklist<a class="anchor" href="#your-checklist" aria-label="Link to this section">#</a></h2>
 <ul>
-<li>Without <code>queue</code> or a <code>group</code>, an offline target device returns <code>409</code>.</li>
-<li>Carrier call charges apply.</li>
-<li>Some manufacturers restrict background call control. Keep the app unlocked or in the foreground if calls are unreliable.</li>
-<li>Ending a call needs Android 9 or newer; older versions report <code>UNSUPPORTED</code>.</li>
+<li>Use long random values for <code>SECRET_KEY</code> and <code>POSTGRES_PASSWORD</code>, and a strong administrator password.</li>
+<li>Expose only ports 80 and 443. Keep SSH restricted, and keep the host patched.</li>
+<li>Verify webhook signatures on your receiver and deduplicate on the delivery <code>id</code>.</li>
+<li>Rotate a device token if a phone or QR code is lost, and disable devices you no longer use.</li>
+<li>Back up the database and store backups off the server.</li>
+<li>Remember that SMS content passes through the gateway and is stored in its database. Treat the database as sensitive.</li>
 </ul>
 
-<nav class="pager" aria-label="Pagination"><a class="prev" href="sms.html"><small>Previous</small>SMS</a><a class="next" href="multi-device.html"><small>Next</small>Multi-device routing</a></nav>
+<div class="callout note"><strong>Reporting vulnerabilities</strong><p>Please report security issues privately to the maintainers rather than opening a public issue.</p></div>
+
+<nav class="pager" aria-label="Pagination"><a class="prev" href="websocket.html"><small>Previous</small>WebSocket protocol</a><a class="next" href="operations.html"><small>Next</small>Operations and limits</a></nav>
 <p class="edit-link">Found a problem? <a href="https://github.com/CLAPTAC/cellular-gateway/issues">Open an issue</a>.</p>
 </article></main>
-<aside class="toc" aria-label="On this page"><h2>On this page</h2><a href="#what-works">What works</a><a href="#phone-setup">Phone setup</a><a href="#examples">Examples</a><a href="#call-statuses">Call statuses</a><a href="#notes">Notes</a></aside>
+<aside class="toc" aria-label="On this page"><h2>On this page</h2><a href="#what-the-gateway-enforces">What the gateway enforces</a><a href="#roles">Roles</a><a href="#your-checklist">Your checklist</a></aside>
 </div>
 <script src="../assets/search-index.js"></script>
 <script src="../assets/site.js"></script>

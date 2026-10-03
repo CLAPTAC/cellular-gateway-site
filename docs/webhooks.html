@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Webhooks · Cellular Gateway</title>
+<meta name="description" content="Receive signed events for inbound SMS, delivery results, call state and device status, with retries and a delivery history.">
+<meta property="og:title" content="Webhooks · Cellular Gateway">
+<meta property="og:description" content="Receive signed events for inbound SMS, delivery results, call state and device status, with retries and a delivery history.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#047857">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>(function(){var t=null;try{t=localStorage.getItem("cg-theme")}catch(e){}if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t)})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-root="../">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="topbar">
+  <button class="icon-btn menu-btn" type="button" data-menu aria-label="Toggle navigation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="../"><svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#10b981"/><stop offset="1" stop-color="#047857"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#lg)"/><path d="M9.5 21.5a9 9 0 0 1 0-11M22.5 10.5a9 9 0 0 1 0 11M13 18.5a4.5 4.5 0 0 1 0-5M19 13.5a4.5 4.5 0 0 1 0 5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="16" r="1.9" fill="#fff"/></svg><span>Cellular Gateway</span></a>
+  <nav class="topnav" aria-label="Primary">
+    <a href="../docs/" aria-current="page">Docs</a>
+    <a href="../docs/api.html">API</a>
+    <a href="../docs/deployment.html">Deploy</a>
+  </nav>
+  <span class="topbar-spacer"></span>
+  <button class="search-btn" type="button" data-search aria-label="Search documentation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><span>Search docs</span><kbd>Ctrl K</kbd></button>
+  <button class="icon-btn" type="button" data-theme-toggle aria-label="Toggle colour theme"><span class="theme-moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></span><span class="theme-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span></button>
+  <a class="icon-btn" href="https://github.com/CLAPTAC/cellular-gateway" aria-label="GitHub repository"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg></a>
+</header>
+<div class="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+  <div class="search-box"><input type="search" placeholder="Search the documentation…" aria-label="Search query" autocomplete="off"><div class="search-results"></div></div>
+</div>
+<div class="docs-shell">
+<nav class="sidebar" aria-label="Documentation">
+<h2>Get started</h2>
+<a href="./">Overview</a>
+<a href="installation.html">Quickstart</a>
+<h2>Deploy</h2>
+<a href="deployment.html">Production</a>
+<a href="shared-host.html">Behind a reverse proxy</a>
+<a href="configuration.html">Configuration</a>
+<h2>Integrate</h2>
+<a href="api.html">API reference</a>
+<a href="webhooks.html" class="active" aria-current="page">Webhooks</a>
+<a href="sms.html">SMS</a>
+<a href="voice.html">Voice</a>
+<a href="multi-device.html">Multi-device routing</a>
+<h2>Devices</h2>
+<a href="android.html">Android app</a>
+<a href="qr-provisioning.html">QR provisioning</a>
+<a href="websocket.html">WebSocket protocol</a>
+<h2>Operate</h2>
+<a href="security.html">Security</a>
+<a href="operations.html">Operations and limits</a>
+</nav>
+<main class="content" id="main"><article class="article">
+<span class="eyebrow">Integrate</span>
+<h1>Webhooks</h1>
+<p class="lead">Receive signed events for inbound SMS, delivery results, call state and device status, with retries and a delivery history.</p>
+<h2 id="create-an-endpoint">Create an endpoint<a class="anchor" href="#create-an-endpoint" aria-label="Link to this section">#</a></h2>
+<p>Administrators create endpoints in the dashboard (<em>Webhooks</em>) or with the API.</p>
+<div class="endpoint"><span class="badge post">POST</span><span class="path">/api/v1/webhooks</span></div>
+<div class="codeblock" data-lang="json"><div class="code-head"><span>Request</span><button class="copy-btn" type="button">Copy</button></div><pre><code>{
+  "name": "crm",
+  "url": "https://example.org/hooks/gateway",
+  "events": ["SMS_RECEIVED", "SMS_FAILED"]
+}</code></pre></div>
+<p><code>events</code> defaults to all event types, and <code>"*"</code> is accepted. The response contains the signing secret (<code>whsec_...</code>) exactly once; rotate it with <code>POST /webhooks/{id}/rotate-secret</code>. List endpoints with <code>GET /webhooks</code>, update or deactivate them with <code>PATCH /webhooks/{id}</code>, and read recent attempts with <code>GET /webhooks/{id}/deliveries</code> (latest 50).</p>
+
+<h2 id="events">Events<a class="anchor" href="#events" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Event</th><th>Emitted when</th><th><code>data</code> fields</th></tr></thead>
+<tbody>
+<tr><td><code>SMS_RECEIVED</code></td><td>A phone receives an SMS</td><td><code>from</code>, <code>body</code> (truncated to 200 characters), <code>message_id</code></td></tr>
+<tr><td><code>SMS_SENT</code></td><td>An outbound SMS command completes</td><td><code>request_id</code>, <code>result</code></td></tr>
+<tr><td><code>SMS_FAILED</code></td><td>An outbound SMS command fails</td><td><code>request_id</code>, <code>error</code></td></tr>
+<tr><td><code>CALL_STATE</code></td><td>A call changes state</td><td><code>state</code>, <code>status</code>, <code>call_id</code>, <code>number</code></td></tr>
+<tr><td><code>DEVICE_ONLINE</code>, <code>DEVICE_OFFLINE</code></td><td>A phone connects or disconnects</td><td><code>connection_id</code></td></tr>
+<tr><td><code>COMMAND_COMPLETED</code>, <code>COMMAND_FAILED</code></td><td>Any command finishes</td><td><code>request_id</code>, <code>command_type</code>, <code>result</code> or <code>error</code></td></tr>
+</tbody></table></div>
+<p>Every <code>data</code> object also carries <code>device_id</code> and a human-readable <code>message</code>. For inbound SMS the body in the webhook is cut at 200 characters; fetch the full text with <code>GET /api/v1/messages/{message_id}</code>.</p>
+
+<h2 id="delivery-format">Delivery format<a class="anchor" href="#delivery-format" aria-label="Link to this section">#</a></h2>
+<div class="codeblock" data-lang="json"><div class="code-head"><span>POST to your URL</span><button class="copy-btn" type="button">Copy</button></div><pre><code>{
+  "id": "&lt;delivery uuid&gt;",
+  "type": "SMS_RECEIVED",
+  "created_at": "2026-01-01T12:00:00+00:00",
+  "data": {
+    "from": "+15551234567",
+    "body": "Hello",
+    "message_id": "...",
+    "device_id": "...",
+    "message": "Inbound SMS from +15551234567"
+  }
+}</code></pre></div>
+<div class="table-wrap"><table>
+<thead><tr><th>Header</th><th>Value</th></tr></thead>
+<tbody>
+<tr><td><code>Content-Type</code></td><td><code>application/json</code></td></tr>
+<tr><td><code>X-CG-Event</code></td><td>The event type</td></tr>
+<tr><td><code>X-CG-Delivery</code></td><td>Delivery id, identical to <code>id</code> in the body</td></tr>
+<tr><td><code>X-CG-Signature</code></td><td><code>sha256=&lt;hex&gt;</code>, the HMAC-SHA256 of the raw body</td></tr>
+</tbody></table></div>
+
+<h2 id="verify-the-signature">Verify the signature<a class="anchor" href="#verify-the-signature" aria-label="Link to this section">#</a></h2>
+<p>Compute the HMAC-SHA256 of the <strong>raw request body</strong> with the endpoint secret and compare it in constant time. Do not re-serialize the JSON before checking.</p>
+<div class="tabs" data-tabs><div class="tab-list" role="tablist"><button type="button" role="tab" aria-selected="false">Python</button><button type="button" role="tab" aria-selected="false">Node</button></div><div class="tab-panel" role="tabpanel"><div class="codeblock" data-lang="python"><div class="code-head"><span>Python</span><button class="copy-btn" type="button">Copy</button></div><pre><code>import hashlib, hmac
+
+def is_valid(secret: str, raw_body: bytes, header: str) -&gt; bool:
+    expected = "sha256=" + hmac.new(secret.encode(), raw_body, hashlib.sha256).hexdigest()
+    return hmac.compare_digest(expected, header)</code></pre></div></div><div class="tab-panel" role="tabpanel"><div class="codeblock" data-lang="js"><div class="code-head"><span>Node</span><button class="copy-btn" type="button">Copy</button></div><pre><code>import crypto from "node:crypto";
+
+export function isValid(secret, rawBody, header) {
+  const expected = "sha256=" + crypto.createHmac("sha256", secret).update(rawBody).digest("hex");
+  const a = Buffer.from(expected);
+  const b = Buffer.from(header ?? "");
+  return a.length === b.length &amp;&amp; crypto.timingSafeEqual(a, b);
+}</code></pre></div></div></div>
+
+<h2 id="delivery-rules">Delivery rules<a class="anchor" href="#delivery-rules" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>A <code>2xx</code> response within 10 seconds counts as success. Anything else is retried.</li>
+<li>There are up to <strong>5 attempts</strong> in total, spaced 30 seconds, 2 minutes, 10 minutes and 30 minutes apart (about 42 minutes overall). After that the delivery is marked <code>FAILED</code>.</li>
+<li>The <code>id</code> stays the same across retries. Deduplicate on it, because a delivery can arrive more than once. Order is not guaranteed.</li>
+<li>URLs must use <code>https</code> in production and must resolve to public addresses. The check runs when you save the endpoint and again at every delivery, and the connection is pinned to the validated IP address. Redirects are not followed.</li>
+</ul>
+
+<div class="callout warn"><strong>What SMS_SENT means</strong><p><code>SMS_SENT</code> means the phone's radio accepted the message for sending. It is not a delivery receipt from the recipient's carrier.</p></div>
+
+<nav class="pager" aria-label="Pagination"><a class="prev" href="api.html"><small>Previous</small>API reference</a><a class="next" href="sms.html"><small>Next</small>SMS</a></nav>
+<p class="edit-link">Found a problem? <a href="https://github.com/CLAPTAC/cellular-gateway/issues">Open an issue</a>.</p>
+</article></main>
+<aside class="toc" aria-label="On this page"><h2>On this page</h2><a href="#create-an-endpoint">Create an endpoint</a><a href="#events">Events</a><a href="#delivery-format">Delivery format</a><a href="#verify-the-signature">Verify the signature</a><a href="#delivery-rules">Delivery rules</a></aside>
+</div>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
